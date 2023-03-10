@@ -4,7 +4,11 @@
     {
         private int _numDeaths;
         private int _numHunts;
-        private int _numinRoster;
+        private int _numInRoster;
+
+        public int NumDeaths { get => _numDeaths; }
+        public int NumHunts { get => _numHunts; }
+        public int NumInRoster { get => _numInRoster; }
 
         public void IncrementNumHunts()
         {
@@ -18,12 +22,12 @@
 
         public void IncrementNumInRoster()
         {
-            _numinRoster++;
+            _numInRoster++;
         }
 
         public void SubtractNumInRoster(int value)
         {
-            _numinRoster -= value;
+            _numInRoster -= value;
         }
     }
 }

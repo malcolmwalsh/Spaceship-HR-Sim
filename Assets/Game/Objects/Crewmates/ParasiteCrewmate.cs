@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Assets.Game.Objects.Hunts;
 using UnityEngine;
@@ -17,7 +18,12 @@ namespace Assets.Game.Objects.Crewmates
 
         public void Escape()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

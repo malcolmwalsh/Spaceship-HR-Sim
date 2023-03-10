@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Assets.Game.Objects.Crewmates
@@ -9,7 +10,12 @@ namespace Assets.Game.Objects.Crewmates
         
         public void Die()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }
