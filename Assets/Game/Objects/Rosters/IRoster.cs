@@ -2,12 +2,13 @@
 
 namespace Assets.Game.Objects.Rosters
 {
-    public interface IRoster : ISelectable<ICrewmate>
+    public interface IRoster : ISelectable<HumanCrewmate>
     {
-        void Add(ICrewmate newCrewmate);
-        ICrewmate Remove(int index);
+        void Add(HumanCrewmate newCrewmate);
+        //ICrewmate Remove(int index);
         int Count();
         bool IsFull();
         bool IsEmpty();
+        void Remove(HumanCrewmate crewmate);
     }
 }

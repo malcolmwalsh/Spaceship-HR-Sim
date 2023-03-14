@@ -1,6 +1,8 @@
-﻿namespace Assets.Game.Control
+﻿using UnityEngine;
+
+namespace Assets.Game.Control
 {
-    public class StatController
+    public class StatController : MonoBehaviour
     {
         private int _numDeaths;
         private int _numHunts;
@@ -17,7 +19,7 @@
 
         public void AddNumDeaths(int value)
         {
-            _numDeaths = +value;
+            _numDeaths += value;
         }
 
         public void IncrementNumInRoster()
