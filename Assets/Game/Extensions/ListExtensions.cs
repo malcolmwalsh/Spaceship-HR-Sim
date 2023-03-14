@@ -11,13 +11,5 @@ namespace Assets.Game.Extensions
         {
             return list[_rng.Next(list.Count)];
         }
-
-        public static T RemoveAndGet<T>(this IList<T> list, int index)
-        {
-            T value = list[index];
-            list.RemoveAt(index);
-            
-            return value;
-        }
     }
 }

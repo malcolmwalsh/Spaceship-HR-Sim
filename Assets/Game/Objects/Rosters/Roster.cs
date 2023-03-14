@@ -22,11 +22,6 @@ namespace Assets.Game.Objects.Rosters
             _crewmates.Add(newCrewmate);
         }
 
-        //public ICrewmate Remove(int index)
-        //{
-        //    return _crewmates.RemoveAndGet(index);
-        //}
-
         public void Remove(HumanCrewmate crewmate)
         {
             _crewmates.Remove(crewmate);

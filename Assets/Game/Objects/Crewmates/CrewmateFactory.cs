@@ -1,5 +1,4 @@
-﻿using System;
-using Assets.Game.Objects.OptionPools;
+﻿using Assets.Game.Objects.OptionPools;
 using UnityEngine;
 
 namespace Assets.Game.Objects.Crewmates
@@ -14,12 +13,6 @@ namespace Assets.Game.Objects.Crewmates
 
         // ReSharper disable once InconsistentNaming
         [SerializeField] private float CHANCE_IS_PARASITE;
-
-        
-        public void Awake()
-        {
-            
-        }
 
         public ICrewmate Create()
         {

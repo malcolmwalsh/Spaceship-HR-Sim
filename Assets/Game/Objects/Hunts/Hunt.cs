@@ -26,8 +26,8 @@ namespace Assets.Game.Objects.Hunts
             // Keep going until we've found them all
             while(allPrey.Count < numberToKill)
             {
-                // Pick a crewmarte to kill
-                IPrey preyToKill = (IPrey)_preyPopulation.ChooseOne();
+                // Pick a crewmate to kill
+                IPrey preyToKill = (IPrey)_preyPopulation.ChooseOne();  // This cast makes me sad
                 
                 // Save it
                 allPrey.Add(preyToKill);
