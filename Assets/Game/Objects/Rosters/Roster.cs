@@ -10,21 +10,26 @@ namespace Assets.Game.Objects.Rosters
         // ReSharper disable once InconsistentNaming
         [SerializeField] private int MAX_ROSTER_SIZE;
 
-        private readonly List<ICrewmate> _crewmates = new List<ICrewmate>();
+        private readonly List<HumanCrewmate> _crewmates = new List<HumanCrewmate>();
 
-        public ICrewmate ChooseOne()
+        public HumanCrewmate ChooseOne()
         {
             return _crewmates.RandomElement();
         }
 
-        public void Add(ICrewmate newCrewmate)
+        public void Add(HumanCrewmate newCrewmate)
         {
             _crewmates.Add(newCrewmate);
         }
 
-        public ICrewmate Remove(int index)
+        //public ICrewmate Remove(int index)
+        //{
+        //    return _crewmates.RemoveAndGet(index);
+        //}
+
+        public void Remove(HumanCrewmate crewmate)
         {
-            return _crewmates.RemoveAndGet(index);
+            _crewmates.Remove(crewmate);
         }
 
         public int Count()

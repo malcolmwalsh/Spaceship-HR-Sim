@@ -19,7 +19,7 @@ namespace Assets.Game.Control
 
         public void AddNumDeaths(int value)
         {
-            _numDeaths = +value;
+            _numDeaths += value;
         }
 
         public void IncrementNumInRoster()

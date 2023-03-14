@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Game.Objects.Hunts
 {
-    public class Hunt
+    public class Hunt : MonoBehaviour
     {
         // ReSharper disable once InconsistentNaming
         [SerializeField] private int MIN_PREY_TO_KILL;
@@ -15,24 +15,36 @@ namespace Assets.Game.Objects.Hunts
 
         [SerializeField] private Roster _preyPopulation;
 
-        public IList<IPrey> BeginHunt(IHunter hunter)
+        public ISet<IPrey> BeginHunt(IHunter hunter)
         {
-            //GetNumberToKill(MIN_PREY_TO_KILL, MAX_PREY_TO_KILL)->numToKill
-            //for i = 1 : numToKill
-            //preyPopulation.GetItem(i)->preyToKill
-            //allPrey.Add(preyToKill)
-            //return allPrey
+            // Store all the prey
+            ISet<IPrey> allPrey = new HashSet<IPrey>();
 
-            throw new NotImplementedException();
+            // The number to kill
+            int numberToKill = GetNumberToKill();
+
+            // Keep going until we've found them all
+            while(allPrey.Count < numberToKill)
+            {
+                // Pick a crewmarte to kill
+                IPrey preyToKill = (IPrey)_preyPopulation.ChooseOne();
+                
+                // Save it
+                allPrey.Add(preyToKill);
+            }           
+            
+            return allPrey;
         }
 
         private int GetNumberToKill()
         {
-            //Random.Range
-            //Check number not greater than prey population size
-            //MIN(preyPopulation.Count, MAX_PREY_TO_KILL)
+            // Sample
+            int numberToKill = UnityEngine.Random.Range(MIN_PREY_TO_KILL, MAX_PREY_TO_KILL);
 
-            throw new NotImplementedException();
+            // Ensure sensible
+            numberToKill = Math.Min(numberToKill, _preyPopulation.Count());
+
+            return numberToKill;
         }
 
     }

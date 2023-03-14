@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
 using Assets.Game.Objects.Hunts;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Game.Objects.Crewmates
@@ -9,16 +8,17 @@ namespace Assets.Game.Objects.Crewmates
     {
         public string Name { get; set; }
         public string Hobby { get; set; }
-        public Hunt Hunt { get; set; }
 
-        public IList<IPrey> GoHunting()
+        [SerializeField] private Hunt Hunt;
+
+        public ISet<IPrey> GoHunting()
         {
             return Hunt.BeginHunt(this);
         }
 
         public void Escape()
         {
-            throw new NotImplementedException();
+            Destroy(this);
         }
 
         public override string ToString()

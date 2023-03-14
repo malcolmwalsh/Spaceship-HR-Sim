@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -16,6 +18,9 @@ namespace Assets.Game.Control
         [SerializeField] private TMP_Text numHunts;
         [SerializeField] private TMP_Text numDeaths;
         [SerializeField] private TMP_Text log;
+
+        LinkedList<string> logEntries = new LinkedList<string>();
+        private const int NUM_LOG_ENTRIES = 3;
 
         public void SetPotentialCrewmateDetails(string name, string hobby) {
             potentialCrewmateDetails.SetText($"The newest recruit's name is {name} and their favourite hobby is {hobby}");
@@ -49,13 +54,36 @@ namespace Assets.Game.Control
 
         public void AppendToLog(string text)
         {
-            log.SetText(text);
+            AppendLogEntries(text);
+
+            PrintLog(string.Join("\n", logEntries));
+        }
+
+        private void AppendLogEntries(string text)
+        {
+            if (logEntries.Count >= NUM_LOG_ENTRIES)
+            {
+                logEntries.RemoveFirst();
+            }
+            logEntries.AddLast(text);
+        }
+
+        private void ClearLogEntries()
+        {
+            logEntries.Clear();
         }
 
         public void ClearLog()
         {
+            ClearLogEntries();
+
             // There must be a better way
-            log.SetText("");
+            PrintLog("");
+        }
+
+        private void PrintLog(string text)
+        {
+            log.SetText(text);
         }
     }
 }

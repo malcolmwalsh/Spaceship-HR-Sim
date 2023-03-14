@@ -26,7 +26,14 @@ namespace Assets.Game.Control
 
         public void Start()
         {
+            UpdateUI();
+        }
+
+        private void UpdateUI()
+        {
             ui.SetNumInRoster(stats.NumInRoster);
+            ui.SetNumHunts(stats.NumHunts);
+            ui.SetNumDeaths(stats.NumDeaths);
         }
 
         private void NewCrewmateCallback(object sender, EventArgs e)
@@ -127,7 +134,7 @@ namespace Assets.Game.Control
             throw new NotImplementedException();
         }
 
-        private void AddCrewmate(ICrewmate crewmate)
+        private void AddCrewmate(HumanCrewmate crewmate)
         {
             roster.Add(crewmate);
 
@@ -137,27 +144,26 @@ namespace Assets.Game.Control
 
         private void BeginHunt(IHunter hunter)
         {
-            //(List<IPrey>)potentialCrewmate.GoHunting->allPrey
-            //foreach in allPrey
-            //prey.Die
-            //ui.AppentToLog($"The following crewmates were killed: {allPrey}")
-            //potentialCrewmate.Escape
-            //ui.AppentToLog($"{potentialCrewmate} has escaped into space after his killing spree")
-            //stats.IncrementNumHunts()
-            //stats.SubtractNumInRoster(allPrey.Count)
-            //ui.SetNumHunts(int value = 1)
-            //ui.SetNumDeaths(int value)
-            //ui.SetNumInRoster(roster.Count)
-
             // Start the hunt
-            IList<IPrey> allPrey = hunter.GoHunting();
+            ISet<IPrey> allPrey = hunter.GoHunting();
 
             // Kill all the prey
             foreach(IPrey p in allPrey)
             {
-                // TODO This could lead to parallel error
+                roster.Remove((HumanCrewmate)p);  // This cast is gross
                 p.Die();
             }
+
+            ui.AppendToLog($"The following crewmates were killed: {string.Join(", ", allPrey)}");
+
+            // Parasite escapes
+            hunter.Escape();
+            ui.AppendToLog($"{potentialCrewmate} has escaped into space after his killing spree");
+
+            stats.IncrementNumHunts();
+            stats.AddNumDeaths(allPrey.Count);
+            stats.SubtractNumInRoster(allPrey.Count);
+            UpdateUI();
         }
     }
 }
