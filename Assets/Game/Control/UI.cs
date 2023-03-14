@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
 
 namespace Assets.Game.Control
 {
@@ -23,7 +21,12 @@ namespace Assets.Game.Control
         private const int NUM_LOG_ENTRIES = 3;
 
         public void SetPotentialCrewmateDetails(string name, string hobby) {
-            potentialCrewmateDetails.SetText($"The newest recruit's name is {name} and their favourite hobby is {hobby}");
+            potentialCrewmateDetails.SetText($"The potential recruit's name is {name} and their favourite hobby is {hobby}");
+        }
+
+        public void ClearPotentialCrewmateDetails()
+        {
+            potentialCrewmateDetails.SetText("");
         }
 
         public void SetNumInRoster(int value) {
@@ -39,17 +42,17 @@ namespace Assets.Game.Control
         }
 
         public void OnClickAcceptCrewMate() {
-            crewmateAccept.Invoke(this, EventArgs.Empty);
+            crewmateAccept?.Invoke(this, EventArgs.Empty);
         }
 
         public void OnClickRefuseCrewMate()
         {
-            crewmateRefuse.Invoke(this, EventArgs.Empty);
+            crewmateRefuse?.Invoke(this, EventArgs.Empty);
         }
 
         public void OnClickNewCrewMate()
         {
-            crewmateNew.Invoke(this, EventArgs.Empty);
+            crewmateNew?.Invoke(this, EventArgs.Empty);
         }
 
         public void AppendToLog(string text)
