@@ -93,7 +93,7 @@ namespace Assets.Game.Control
 
             if (potentialCrewmate is ParasiteCrewmate)
             {
-                ui.AppendToLog($"...and good thing too. As {potentialCrewmate} returns to his ship you see his visage blur and fade. " +
+                ui.AppendToLog($"...and good thing too. As {potentialCrewmate} returns to their ship you see their visage blur and fade. " +
                     $"{potentialCrewmate} was a parasite!");
             }
 
@@ -131,7 +131,17 @@ namespace Assets.Game.Control
 
         private void WinGame()
         {
-            throw new NotImplementedException();
+            ui.ClearPotentialCrewmateDetails();
+            ui.ClearLog();
+
+            ui.AppendToLog("Nice one, a full crew!");
+            ui.AppendToLog($"And only {stats.NumDeaths} people had to die. Well done!");
+            ui.AppendToLog("Game Over");
+
+            // Disable all buttons
+            ui.crewmateAccept -= AcceptCrewmateCallback;
+            ui.crewmateRefuse -= RefuseCrewmateCallback;
+            ui.crewmateNew -= NewCrewmateCallback;
         }
 
         private void AddCrewmate(HumanCrewmate crewmate)
@@ -160,6 +170,7 @@ namespace Assets.Game.Control
             hunter.Escape();
             ui.AppendToLog($"{potentialCrewmate} has escaped into space after his killing spree");
 
+            // Update stats and UI
             stats.IncrementNumHunts();
             stats.AddNumDeaths(allPrey.Count);
             stats.SubtractNumInRoster(allPrey.Count);
