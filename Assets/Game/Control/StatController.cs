@@ -1,6 +1,8 @@
-﻿namespace Assets.Game.Control
+﻿using UnityEngine;
+
+namespace Assets.Game.Control
 {
-    public class StatController
+    public class StatController : MonoBehaviour
     {
         private int _numDeaths;
         private int _numHunts;
