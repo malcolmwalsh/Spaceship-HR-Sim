@@ -4,13 +4,14 @@ using UnityEngine;
 
 namespace Assets.Game.Objects.Crewmates
 {
-    public class ParasiteCrewmate : Crewmate, IHunter
+    public class ParasiteCrewmate : Crewmate
     {
         [SerializeField] private Hunt Hunt;
-
-        public ISet<IPrey> GoHunting()
+        [SerializeField] private Sprite parasiteSprite;
+ 
+        public ISet<HumanCrewmate> GoHunting()
         {
-            return Hunt.BeginHunt(this);
+            return Hunt.BeginHunt();
         }
 
         public void Escape()
@@ -21,6 +22,12 @@ namespace Assets.Game.Objects.Crewmates
         public override string ToString()
         {
             return name;
+        }
+
+        public void SwapSprite()
+        {
+            GetComponent<SpriteRenderer>().sprite = parasiteSprite;
+            GetComponent<SpriteRenderer>().color = Color.yellow;
         }
     }
 }

@@ -1,10 +1,15 @@
+using UnityEngine;
+
 namespace Assets.Game.Objects.Crewmates
 {
-    public class HumanCrewmate : Crewmate, IPrey
+    public class HumanCrewmate : Crewmate
     {
         public void Die()
         {
-            Destroy(this.gameObject);
+            // Death
+
+            // Change colour
+            this.GetComponent<SpriteRenderer>().color = Color.red;
         }
 
         public override string ToString()

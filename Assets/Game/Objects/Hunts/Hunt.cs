@@ -15,10 +15,10 @@ namespace Assets.Game.Objects.Hunts
 
         [SerializeField] private Roster _preyPopulation;
 
-        public ISet<IPrey> BeginHunt(IHunter hunter)
+        public ISet<HumanCrewmate> BeginHunt()
         {
             // Store all the prey
-            ISet<IPrey> allPrey = new HashSet<IPrey>();
+            ISet<HumanCrewmate> allPrey = new HashSet<HumanCrewmate>();
 
             // The number to kill
             int numberToKill = GetNumberToKill();
@@ -27,7 +27,7 @@ namespace Assets.Game.Objects.Hunts
             while(allPrey.Count < numberToKill)
             {
                 // Pick a crewmate to kill
-                IPrey preyToKill = (IPrey)_preyPopulation.ChooseOne();  // This cast makes me sad
+                HumanCrewmate preyToKill = _preyPopulation.ChooseOne();
                 
                 // Save it
                 allPrey.Add(preyToKill);
