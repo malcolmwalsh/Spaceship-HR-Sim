@@ -4,11 +4,8 @@ using UnityEngine;
 
 namespace Assets.Game.Objects.Crewmates
 {
-    public class ParasiteCrewmate : MonoBehaviour, ICrewmate, IHunter
+    public class ParasiteCrewmate : Crewmate, IHunter
     {
-        public string Name { get; set; }
-        public string Hobby { get; set; }
-
         [SerializeField] private Hunt Hunt;
 
         public ISet<IPrey> GoHunting()
@@ -18,12 +15,12 @@ namespace Assets.Game.Objects.Crewmates
 
         public void Escape()
         {
-            Destroy(this);
+            Destroy(this.gameObject);
         }
 
         public override string ToString()
         {
-            return Name;
+            return name;
         }
     }
 }

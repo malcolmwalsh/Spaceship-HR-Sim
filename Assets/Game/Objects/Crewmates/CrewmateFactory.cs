@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Assets.Game.Objects.Crewmates
 {
-    public class CrewmateFactory : MonoBehaviour, IFactory<ICrewmate>
+    public class CrewmateFactory : MonoBehaviour, IFactory<Crewmate>
     {
         [SerializeField] private HumanCrewmate _humanCrewmate;
         [SerializeField] private ParasiteCrewmate _parasiteCrewmate;
@@ -14,25 +14,28 @@ namespace Assets.Game.Objects.Crewmates
         // ReSharper disable once InconsistentNaming
         [SerializeField] private float CHANCE_IS_PARASITE;
 
-        public ICrewmate Create()
+        public Crewmate Create()
         {
-            ICrewmate crewmate;
+            Crewmate crewmate;
 
             if (IsParasite()) {
-                crewmate = Instantiate(_parasiteCrewmate);
+                crewmate = Instantiate(_parasiteCrewmate, this.transform);
 
                 // Randomly find and assign a hobby
                 crewmate.Hobby = _parasiteHobbyPool.ChooseOne();
 
             } else {
-                crewmate = Instantiate(_humanCrewmate);
+                crewmate = Instantiate(_humanCrewmate, this.transform);
 
                 // Randomly find and assign a hobby
                 crewmate.Hobby = _humanHobbyPool.ChooseOne();
             }
 
             // Pick a name at random
-            crewmate.Name = _namePool.ChooseOne();
+            crewmate.name = _namePool.ChooseOne();
+
+            // Turn on the sprite renderer
+            crewmate.GetComponent<SpriteRenderer>().enabled = true;
 
             return crewmate;
         }
