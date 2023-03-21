@@ -34,6 +34,9 @@ namespace Assets.Game.Objects.Crewmates
             // Pick a name at random
             crewmate.name = _namePool.ChooseOne();
 
+            // Turn on the sprite renderer
+            crewmate.GetComponent<SpriteRenderer>().enabled = true;
+
             return crewmate;
         }
 

@@ -149,7 +149,11 @@ namespace Assets.Game.Control
 
         private void AddCrewmate(HumanCrewmate crewmate)
         {
+            // Add to roster
             roster.Add(crewmate);
+
+            // Move to roster
+            crewmate.transform.parent = roster.transform;
 
             stats.IncrementNumInRoster();
             ui.SetNumInRoster(stats.NumInRoster);

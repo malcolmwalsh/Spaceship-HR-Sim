@@ -15,7 +15,7 @@ namespace Assets.Game.Objects.Crewmates
 
         public void Escape()
         {
-            Destroy(this);
+            Destroy(this.gameObject);
         }
 
         public override string ToString()
