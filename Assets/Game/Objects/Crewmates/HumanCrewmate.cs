@@ -2,11 +2,8 @@ using UnityEngine;
 
 namespace Assets.Game.Objects.Crewmates
 {
-    public class HumanCrewmate : MonoBehaviour, ICrewmate, IPrey
+    public class HumanCrewmate : Crewmate, IPrey
     {
-        public string Name { get; set; }
-        public string Hobby { get; set; }
-        
         public void Die()
         {
             Destroy(this);
@@ -14,7 +11,7 @@ namespace Assets.Game.Objects.Crewmates
 
         public override string ToString()
         {
-            return Name;
+            return name;
         }
     }
 }

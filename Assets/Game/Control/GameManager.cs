@@ -13,7 +13,7 @@ namespace Assets.Game.Control
         [SerializeField] private CrewmateFactory factory;
         [SerializeField] private StatController stats;
 
-        private ICrewmate potentialCrewmate;
+        private Crewmate potentialCrewmate;
 
         private bool waitingForUser;
 
@@ -97,6 +97,9 @@ namespace Assets.Game.Control
                     $"{potentialCrewmate} was a parasite!");
             }
 
+            // Destroy this
+            Destroy(potentialCrewmate.gameObject);
+
             // Let player create a new one
             waitingForUser = false;
         }
@@ -107,7 +110,7 @@ namespace Assets.Game.Control
             potentialCrewmate = factory.Create();
 
             // Update ui with details of this crewmate
-            ui.SetPotentialCrewmateDetails(potentialCrewmate.Name, potentialCrewmate.Hobby);
+            ui.SetPotentialCrewmateDetails(potentialCrewmate.name, potentialCrewmate.Hobby);
         }
 
         private void CheckWinLoss()
