@@ -19,11 +19,21 @@ namespace Assets.Game.Objects.Rosters
 
         public void Add(HumanCrewmate newCrewmate)
         {
+            if (IsFull())
+            {
+                throw new System.ArgumentOutOfRangeException("Cannot add another crew mate as roster is full");
+            }
+
             _crewmates.Add(newCrewmate);
         }
 
         public void Remove(HumanCrewmate crewmate)
         {
+            if (IsEmpty())
+            {
+                throw new System.ArgumentOutOfRangeException("Cannot remove crew mate as roster is empty");
+            }
+
             _crewmates.Remove(crewmate);
         }
 
