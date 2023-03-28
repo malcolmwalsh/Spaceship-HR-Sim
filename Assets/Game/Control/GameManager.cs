@@ -18,18 +18,38 @@ namespace Assets.Game.Control
 
         private Crewmate potentialCrewmate;
 
-        private bool waitingForUser;
+        //private bool waitingForUser;
 
         public void Awake()
         {
-            ui.crewmateAccept += AcceptCrewmateCallback;
-            ui.crewmateRefuse += RefuseCrewmateCallback;
-            ui.crewmateNew += NewCrewmateCallback;
+            RegisterNewCrewmateCallback();
         }
 
         public void Start()
         {
             UpdateUI();
+        }
+
+        private void RegisterNewCrewmateCallback()
+        {
+            ui.crewmateNew += NewCrewmateCallback;
+        }
+
+        private void DeregisterNewCrewmateCallback()
+        {
+            ui.crewmateNew -= NewCrewmateCallback;
+        }
+
+        private void RegisterAcceptRefuseCrewmateCallback()
+        {
+            ui.crewmateAccept += AcceptCrewmateCallback;
+            ui.crewmateRefuse += RefuseCrewmateCallback;
+        }
+
+        private void DeregisterAcceptRefuseCrewmateCallback()
+        {
+            ui.crewmateAccept -= AcceptCrewmateCallback;
+            ui.crewmateRefuse -= RefuseCrewmateCallback;
         }
 
         private void UpdateUI()
@@ -41,20 +61,23 @@ namespace Assets.Game.Control
 
         private void NewCrewmateCallback(object sender, EventArgs e)
         {
-            if (!waitingForUser)
-            {
-                waitingForUser = true;
+            // Deregister and register events
+            DeregisterNewCrewmateCallback();
+            RegisterAcceptRefuseCrewmateCallback();
 
-                // Clear log
-                ui.ClearLog();
+            // Clear log
+            ui.ClearLog();
 
-                // Generate a new one
-                GeneratePotentialCrewmate();
-            }
+            // Generate a new one
+            GeneratePotentialCrewmate();            
         }
 
         private void AcceptCrewmateCallback(object sender, EventArgs e)
         {
+            // Deregister and register events
+            RegisterNewCrewmateCallback();
+            DeregisterAcceptRefuseCrewmateCallback();
+
             AcceptCrewmate();
         }
 
@@ -85,9 +108,6 @@ namespace Assets.Game.Control
 
             // Is the game over?
             CheckWinLoss();
-
-            // Let player create a new one
-            waitingForUser = false;
         }
 
         private void MoveToAirlock(ParasiteCrewmate parasite)
@@ -103,6 +123,10 @@ namespace Assets.Game.Control
 
         private void RefuseCrewmateCallback(object sender, EventArgs e)
         {
+            // Deregister and register events
+            RegisterNewCrewmateCallback();
+            DeregisterAcceptRefuseCrewmateCallback();
+
             RefuseCrewmate();
         }
 
@@ -118,9 +142,6 @@ namespace Assets.Game.Control
 
             // Destroy this
             Destroy(potentialCrewmate.gameObject);
-
-            // Let player create a new one
-            waitingForUser = false;
         }
 
         private void GeneratePotentialCrewmate()
@@ -168,9 +189,8 @@ namespace Assets.Game.Control
 
         private void DisableButtons()
         {
-            ui.crewmateAccept -= AcceptCrewmateCallback;
-            ui.crewmateRefuse -= RefuseCrewmateCallback;
-            ui.crewmateNew -= NewCrewmateCallback;
+            DeregisterNewCrewmateCallback();
+            DeregisterAcceptRefuseCrewmateCallback();
 
             ui.DisableButtons();
         }
