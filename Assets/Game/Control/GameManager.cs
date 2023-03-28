@@ -171,6 +171,8 @@ namespace Assets.Game.Control
             ui.crewmateAccept -= AcceptCrewmateCallback;
             ui.crewmateRefuse -= RefuseCrewmateCallback;
             ui.crewmateNew -= NewCrewmateCallback;
+
+            ui.DisableButtons();
         }
 
         private void WinGame()
@@ -191,6 +193,7 @@ namespace Assets.Game.Control
             // Add to roster
             roster.Add(crewmate);
 
+            // Move image to roster location
             MoveToRoster(crewmate);
 
             // Record stats
@@ -223,6 +226,7 @@ namespace Assets.Game.Control
                 // Dies
                 p.Die();
 
+                // Move the image to the Hunt location
                 MoveToHunt(p, i);
 
                 i++;

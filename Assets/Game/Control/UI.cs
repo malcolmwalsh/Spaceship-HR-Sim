@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Game.Control
 {
@@ -19,6 +20,10 @@ namespace Assets.Game.Control
 
         LinkedList<string> logEntries = new LinkedList<string>();
         private const int NUM_LOG_ENTRIES = 3;
+
+        [SerializeField] private Button acceptCrewmateButton;
+        [SerializeField] private Button refuseCrewmateButton;
+        [SerializeField] private Button generateCrewmateButton;
 
         public void SetPotentialCrewmateDetails(string name, string hobby) {
             potentialCrewmateDetails.SetText($"The potential recruit's name is {name} and their favourite hobby is {hobby}");
@@ -87,6 +92,12 @@ namespace Assets.Game.Control
         private void PrintLog(string text)
         {
             log.SetText(text);
+        }
+
+        public void DisableButtons()
+        {
+            // This gets and sets inactive the buttons parent which is the empty game object called Buttons that holds all the buttons
+            acceptCrewmateButton.transform.parent.gameObject.SetActive(false);
         }
     }
 }
