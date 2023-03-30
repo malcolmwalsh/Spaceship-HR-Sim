@@ -5,33 +5,33 @@ namespace Assets.Game.Objects.Crewmates
 {
     public abstract class Crewmate : MonoBehaviour
     {
-        float t;
-        Vector3 startPosition;
-        Vector3 targetPosition;
-        float timeToReachTarget;
+        private float _t;
+        private Vector3 _startPosition;
+        private Vector3 _targetPosition;
+        private float _timeToReachTarget;
 
         public string Hobby { get; set; }
 
         void Start()
         {
-            startPosition = targetPosition = transform.position;
+            _startPosition = _targetPosition = transform.position;
         }
 
         public void Update()
         {
-            if (!startPosition.Equals(targetPosition))
+            if (!_startPosition.Equals(_targetPosition))
             {
-                t += Time.deltaTime / timeToReachTarget;
-                transform.position = Vector3.Lerp(startPosition, targetPosition, t);
+                _t += Time.deltaTime / _timeToReachTarget;
+                transform.position = Vector3.Lerp(_startPosition, _targetPosition, _t);
             }
         }
 
         public void SetDestination(Vector3 destination, float time)
         {
-            t = 0;
-            startPosition = transform.position;
-            timeToReachTarget = time;
-            targetPosition = destination;
+            _t = 0;
+            _startPosition = transform.position;
+            _timeToReachTarget = time;
+            _targetPosition = destination;
         }
     }
 }

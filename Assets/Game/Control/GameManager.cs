@@ -16,9 +16,13 @@ namespace Assets.Game.Control
         [SerializeField] private Hunt hunt;
         [SerializeField] private Transform airlock;
 
-        private Crewmate potentialCrewmate;
+        private Crewmate _potentialCrewmate;
 
-        //private bool waitingForUser;
+        private Canvas _canvas;
+        private Transform _crewLineUp;
+        private Transform _deadLineUp;
+        private Transform _parasiteLineUp;
+
 
         public void Awake()
         {
@@ -27,6 +31,24 @@ namespace Assets.Game.Control
 
         public void Start()
         {
+            // Try to find the Canvas
+            GameObject tempObject = GameObject.Find("Canvas");
+            if (tempObject != null)
+            {
+                // Get the Canvas component
+                _canvas = tempObject.GetComponent<Canvas>();
+                if (_canvas == null)
+                {
+                    throw new ApplicationException("Could not locate Canvas component on " + tempObject.name);
+                }
+
+                _crewLineUp = _canvas.transform.Find("LineUps").Find("Crew LineUp");
+                _deadLineUp = _canvas.transform.Find("LineUps").Find("Dead LineUp");
+                _parasiteLineUp = _canvas.transform.Find("LineUps").Find("Parasite LineUp");
+
+            }
+
+
             UpdateUI();
         }
 
@@ -84,19 +106,19 @@ namespace Assets.Game.Control
         private void AcceptCrewmate()
         {           
             // Show the result of the choice
-            ui.AppendToLog($"Crewmate {potentialCrewmate} accepted");
+            ui.AppendToLog($"Crewmate {_potentialCrewmate} accepted");
 
-            if (potentialCrewmate is HumanCrewmate human)
+            if (_potentialCrewmate is HumanCrewmate human)
             {
                 // Is human
-                ui.AppendToLog($"{potentialCrewmate} is a perfectly normal human");
+                ui.AppendToLog($"{_potentialCrewmate} is a perfectly normal human");
 
                 AddCrewmate(human);
             }
-            else if (potentialCrewmate is ParasiteCrewmate parasite)
+            else if (_potentialCrewmate is ParasiteCrewmate parasite)
             {
                 // Is parasite
-                ui.AppendToLog($"{potentialCrewmate} is a parasite! The crew is in mortal danger now.");
+                ui.AppendToLog($"{_potentialCrewmate} is a parasite! The crew is in mortal danger now.");
 
                 // Change sprite
                 parasite.SwapSprite();
@@ -117,7 +139,7 @@ namespace Assets.Game.Control
             parasite.transform.localScale = new Vector3(0.5F, 0.5F, 1);
 
             // Destination position
-            Vector3 destination = airlock.position + new Vector3(stats.NumHunts, 0, 0);
+            Vector3 destination = _parasiteLineUp.transform.position + new Vector3(stats.NumHunts, 0, 0);
             parasite.SetDestination(destination, 1);
         }
 
@@ -132,25 +154,25 @@ namespace Assets.Game.Control
 
         private void RefuseCrewmate()
         {
-            ui.AppendToLog($"You refuse to let {potentialCrewmate} near the crew");
+            ui.AppendToLog($"You refuse to let {_potentialCrewmate} near the crew");
 
-            if (potentialCrewmate is ParasiteCrewmate)
+            if (_potentialCrewmate is ParasiteCrewmate)
             {
-                ui.AppendToLog($"...and good thing too. As {potentialCrewmate} returns to their ship you see their visage blur and fade. " +
-                    $"{potentialCrewmate} was a parasite!");
+                ui.AppendToLog($"...and good thing too. As {_potentialCrewmate} returns to their ship you see their visage blur and fade. " +
+                    $"{_potentialCrewmate} was a parasite!");
             }
 
             // Destroy this
-            Destroy(potentialCrewmate.gameObject);
+            Destroy(_potentialCrewmate.gameObject);
         }
 
         private void GeneratePotentialCrewmate()
         {
             // Create a new potential crewmate
-            potentialCrewmate = factory.Create();
+            _potentialCrewmate = factory.Create();
 
             // Update ui with details of this crewmate
-            ui.SetPotentialCrewmateDetails(potentialCrewmate.name, potentialCrewmate.Hobby);
+            ui.SetPotentialCrewmateDetails(_potentialCrewmate.name, _potentialCrewmate.Hobby);
         }
 
         private void CheckWinLoss()
@@ -227,7 +249,7 @@ namespace Assets.Game.Control
             crewmate.transform.SetParent(roster.transform);
 
             // Destination position
-            Vector3 destination = roster.transform.position + new Vector3(stats.NumInRoster, 0, 0);
+            Vector3 destination = _crewLineUp.transform.position + new Vector3(stats.NumInRoster, 0, 0);
             crewmate.SetDestination(destination, 1);
         }
 
@@ -256,7 +278,7 @@ namespace Assets.Game.Control
 
             // Parasite escapes
             //hunter.Escape();
-            ui.AppendToLog($"{potentialCrewmate} has escaped into space after his killing spree");
+            ui.AppendToLog($"{_potentialCrewmate} has escaped into space after his killing spree");
 
             // Update stats and UI
             stats.IncrementNumHunts();
@@ -271,7 +293,7 @@ namespace Assets.Game.Control
             p.transform.SetParent(hunt.transform);
 
             // Destination position
-            Vector3 destination = hunt.transform.position + new Vector3(stats.NumDeaths + index, 0, 0);
+            Vector3 destination = _deadLineUp.transform.position + new Vector3(stats.NumDeaths + index, 0, 0);
             p.SetDestination(destination, 1);
         }
     }
